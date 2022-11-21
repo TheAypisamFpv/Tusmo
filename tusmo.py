@@ -6,6 +6,7 @@ def check_match(input, word, G_l):
     for lettre in range(len(word)):
         if input[lettre] == word[lettre]:
             matchs += " " + input[lettre] + " |"
+            word = word.replace(input[lettre], " ", 1)
             color += "🟩 |"
             G_l[lettre] = input[lettre]
         else:
@@ -15,15 +16,14 @@ def check_match(input, word, G_l):
                 color += "🟨 |"
                 G_l[lettre] = "_"
             else:
-                matchs += "   |"
+                matchs += " " + input[lettre] + " |"
                 color += "🟥 |"
                 G_l[lettre] = "_"
 
     
     return matchs, color, G_l
 
-
-word_list = ["aahed",
+en_word_list = ["aahed",
              "aalii",
              "aargh",
              "aarti",
@@ -12997,71 +12997,96 @@ word_list = ["aahed",
              "zymic",]
 
 
-div0 = ""
-div1 = ""
-div2 = ""
-div3 = ""
-div4 = ""
-div5 = ""
-div = [div1, div2, div3, div4, div5]
+while True:
+    print("select language:")
+    language = input("(en/fr) ")
+    if language == "en":
+        word_list = en_word_list
+    elif language == "fr":
+        word_list = fr_word_list
 
-div_index = 0
+    word = word_list[random.randrange(0, len(word_list), 1)]
+    word_ = ""
 
-word = word_list[random.randrange(0, len(word_list), 1)]
-print(word)
-user_input = ""
-color_square = ""
+    div0 = "|"
+    div1 = ""
+    div2 = ""
+    div3 = ""
+    div4 = ""
+    div5 = ""
+    div = [div1, div2, div3, div4, div5]
 
-good_lettre = []
-good_word  =""
-guess = ""
-score = 0
+    div_index = 0
 
-
-for d in range(len(word)):
-    div0 += "  | "
-    good_lettre.append("")
-
-print(div0)
-
-
-
-
-while user_input != word:
-    good_word = ""
+    # print(word)
     user_input = ""
-    for L in range(len(good_lettre)):
-        good_word += good_lettre[L]
-    
+    color_square = ""
 
-    print("mot de {} lettres".format(len(word)))
-    print("lettres trouvées : {}".format(good_word))
-    
-    while len(user_input) != len(word):
-        user_input = input(":")
+    good_lettre = []
+    good_word  =""
+    guess = ""
+    score = 0
+
+    for d in range(len(word)):
+        div0 += "  | "
+        good_lettre.append("")
+
+    print(div0)
+
+    while user_input != word:
+        print()
+        good_word = ""
+        user_input = ""
+        for L in range(len(good_lettre)):
+            good_word += good_lettre[L]
+        
+        print("mot de {} lettres".format(len(word)))
+        print("lettres trouvées : {}".format(good_word))
+
+        
+        while len(user_input) != len(word):
+            user_input = input(":")
+            # don't worry about that
+            if user_input == "/get word":
+                print(word)
+
+            if user_input == "/unplayable":
+                for w in word:
+                    word_ += " "
+                word = word_
 
 
-    guess, div[div_index], good_lettre = check_match(user_input, word, good_lettre)
+        guess, div[div_index], good_lettre = check_match(user_input, word, good_lettre)
 
-    print(guess)
-    print(div[div_index])
+        print("|{}".format(guess))
+        print("|{}".format(div[div_index]))
 
-    if guess.replace(" ", "").replace("|", "") == word:
-        score = len(div) - div_index
-        print("\n       GG!\nYour score is {}".format(score))
-        for i in div:
-            print("|{}".format(str(i)))
-        print('\n')
-        print("you guessed the word {}".format(word))
+
+        # player win
+        if guess.replace(" ", "").replace("|", "") == word:
+            score = len(div) - div_index
+            print("\n       GG!\nYour score is {}/5".format(score))
+            for i in div:
+                print("|{}".format(str(i)))
+            print('\n')
+            print("you guessed the word {}".format(word))
+            break
+        i = 0
+        div_index += 1
+
+        # player lose
+        if div_index == len(div):
+            print("\n   Game Over!\nYour score is {}/5".format(score))
+            for i in div:
+                print("|{}".format(str(i)))
+            print("\n The word was {}".format(word))
+            break
+
+    # player want to replay ?
+    print('\nreplay?')
+
+    if input("(y/n):") == "y":
+        print()
+        continue
+    else:
         break
-    i = 0
-    div_index += 1
-
-    if div_index == len(div):
-        print("\n   Game Over!\nYour score is {}".format(score))
-        for i in div:
-            print("|{}".format(str(i)))
-        print("\n The word was {}".format(word))
-        break
-
-
