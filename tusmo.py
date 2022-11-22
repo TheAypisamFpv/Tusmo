@@ -13250,7 +13250,7 @@ fr_word_list = [
                 "chien",
                 "ciel",
                 "client",
-                "cœur",
+                "coeur",
                 "coin",
                 "colonel",
                 "compte",
@@ -13678,6 +13678,16 @@ while True:
         
         while len(user_input) != len(word):
             user_input = input(":")
+
+            # don't worry about that
+            if user_input == "/get word":
+                print(word)
+
+            if user_input == "/unplayable":
+                for w in word:
+                    word_ += " "
+                word = word_
+
             if user_input in word_list:
                 if len(user_input) != len(word):
                     if user_input != "":
@@ -13693,14 +13703,6 @@ while True:
                     print("this word isn't in the word list")
                 user_input = ""
 
-            # don't worry about that
-            if user_input == "/get word":
-                print(word)
-
-            if user_input == "/unplayable":
-                for w in word:
-                    word_ += " "
-                word = word_
 
         guessed_word[div_index] = user_input
         guess, div[div_index], good_lettre = check_match(user_input, word, good_lettre)
