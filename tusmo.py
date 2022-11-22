@@ -5,22 +5,21 @@ def check_match(input, word, G_l):
     color = ""
     for lettre in range(len(word)):
         if input[lettre] == word[lettre]:
-            matchs += " " + input[lettre] + " |"
+            matchs += " " + input[lettre] + "|"
             word = word.replace(input[lettre], " ", 1)
-            color += "🟩 |"
+            color += "🟩|"
             G_l[lettre] = input[lettre]
         else:
             if input[lettre] in word:
-                matchs += " " + input[lettre] + " |"
+                matchs += " " + input[lettre] + "|"
                 word = word.replace(input[lettre], " ", 1)
-                color += "🟨 |"
+                color += "🟨|"
                 G_l[lettre] = "_"
             else:
-                matchs += " " + input[lettre] + " |"
-                color += "🟥 |"
+                matchs += " " + input[lettre] + "|"
+                color += "⬛️​|"
                 G_l[lettre] = "_"
 
-    
     return matchs, color, G_l
 
 en_word_list = [
